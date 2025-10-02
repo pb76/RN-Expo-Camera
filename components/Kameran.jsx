@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert, Image } from "react-native";
 import { useState, useRef } from "react";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 //https://docs.expo.dev/versions/latest/sdk/camera/
@@ -6,6 +6,7 @@ import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 export default function Kameran() {
   const [facing, setFacing] = useState("back");
   const [permission, requestPermission] = useCameraPermissions();
+  const [capturedImage, setCapturedImage] = useState(null);
   const cameraRef = useRef(null);
 
   if (!permission) {
@@ -33,13 +34,32 @@ export default function Kameran() {
     if (cameraRef.current) {
       try {
         const photo = await cameraRef.current.takePictureAsync();
-        Alert.alert("Foto taget!", `Bilden sparad: ${photo.uri}`);
+        setCapturedImage(photo.uri);
+        Alert.alert("Foto taget!", "Bilden visas nu på skärmen");
         console.log("Photo taken:", photo);
       } catch (error) {
         console.error("Error taking picture:", error);
         Alert.alert("Fel", "Kunde inte ta foto");
       }
     }
+  }
+
+  function retakePhoto() {
+    setCapturedImage(null);
+  }
+
+  // If we have a captured image, show it instead of the camera
+  if (capturedImage) {
+    return (
+      <View style={styles.container}>
+        <Image source={{ uri: capturedImage }} style={styles.capturedImage} />
+        <View style={styles.imageButtonContainer}>
+          <TouchableOpacity style={styles.button} onPress={retakePhoto}>
+            <Text style={styles.buttonText}>Ta nytt foto</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
   }
 
   return (
@@ -100,5 +120,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "white",
+  },
+  capturedImage: {
+    flex: 1,
+    width: "100%",
+    resizeMode: "contain",
+  },
+  imageButtonContainer: {
+    position: "absolute",
+    bottom: 50,
+    left: 0,
+    right: 0,
+    alignItems: "center",
   },
 });
