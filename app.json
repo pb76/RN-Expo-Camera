@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "RN-Expo-Camera",
-    "slug": "RN-Expo-Camera",
+    "slug": "sum-kamera",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pb76.sum-kamera"
     },
     "android": {
       "adaptiveIcon": {
@@ -24,6 +25,18 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "85c30aa7-3a1d-4c7a-b346-7f6889e035a7"
+      }
+    },
+    "owner": "pb76",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/85c30aa7-3a1d-4c7a-b346-7f6889e035a7"
     }
   }
 }
